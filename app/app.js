@@ -8,8 +8,8 @@ http.createServer(function (request, response){
     //HTTP Status: 200: OK
     //Content Type: text/html
     response.writeHeader(200, {'Content-Type':'text/html'});
-    response.end("Hello World!\n");
+    response.end("It's Time To Duel!\n");
 }).listen(8080)
 
 //Console will print this message
-console.log(`Server running at http://${hostname}:{port}/`);
+console.log(`Server running at http://${hostname}:${port}/`);

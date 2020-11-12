@@ -17,6 +17,8 @@ const app = express();
 
 app.use(express.urlencoded());
 app.use(express.json());
+app.use('/css', express.static('css'));
+app.use('/images', express.static('images'));
 
 //Serve Home
 app.get('/',function(request, response){

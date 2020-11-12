@@ -21,23 +21,23 @@ app.use('/css', express.static('css'));
 app.use('/images', express.static('images'));
 
 //Serve Home
-app.get('/',function(request, response){
+app.get('/', function(request, response){
     response.sendFile('C:/Users/marce/Desktop/Cardbase/app/index.html');
 })
 
-app.get('/home',function(request, response){
+app.get('/home', function(request, response){
     response.sendFile('C:/Users/marce/Desktop/Cardbase/app/home.html');
 })
 
-app.get('/library',function(request, response){
+app.get('/library', function(request, response){
     response.sendFile('C:/Users/marce/Desktop/Cardbase/app/library.html');
 })
 
-app.get('/deck',function(request, response){
+app.get('/deck', function(request, response){
     response.sendFile('C:/Users/marce/Desktop/Cardbase/app/deck.html');
 })
 
-app.get('/packs',function(request, response){
+app.get('/packs', function(request, response){
     response.sendFile('C:/Users/marce/Desktop/Cardbase/app/packs.html');
 })
 
@@ -45,9 +45,9 @@ app.get('/packs',function(request, response){
 app.post('/auth', function(request, response){
     let username = request.body.username;
     if (username) {
-        connection.query('SELECT * FROM accounts WHERE username = ?', [username], function(error, results, fields) {
+        connection.query('SELECT id FROM accounts WHERE username = ?', [username], function(error, results, fields) {
 			if (results.length > 0) {
-                console.log("results!");
+                let id = JSON.parse(JSON.stringify(results[0])).id;
 				response.redirect('/home');
 			} else {
 				response.send('This username does not exist.');

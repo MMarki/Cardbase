@@ -30,14 +30,17 @@
             <a href="/packs">Packs</a>
         </nav>
         <h4>Your Card Library:</h4>
-        <ul>
-          <li>winged germy</li>
-          <li>gold boomer</li>
-          <li>ghostisisis</li>
-        </ul>
+          <div id="vue-app">
+            <h1>{{ name }}</h1>
+            <button v-on:click="add">Add</button>
+            <button v-on:click="subtract">Subtract</button>
+            <p>My card count is {{ card }}</p>
+        </div>
       </div>
     </div>
   </div>
+
+  <script src="frontend/frontend.js"></script>
 
 </body>
 </html>

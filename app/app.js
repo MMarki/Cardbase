@@ -25,6 +25,7 @@ app.use(express.urlencoded());
 app.use(express.json());
 app.use('/css', express.static('css'));
 app.use('/images', express.static('images'));
+app.use('/frontend', express.static('frontend'));
 
 //Routing
 app.get('/', function(request, response){

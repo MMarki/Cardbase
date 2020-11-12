@@ -15,31 +15,37 @@ connection.connect(function(err) {
 
 const app = express();
 
+const port = 8080;
+const hostname = '127.0.0.1';
+app.listen(port, function(req, res){
+    console.log(`Server running at http://${hostname}:${port}/`);
+})
+
 app.use(express.urlencoded());
 app.use(express.json());
 app.use('/css', express.static('css'));
 app.use('/images', express.static('images'));
 
-//Serve Home
+//Routing
 app.get('/', function(request, response){
-    response.sendFile('C:/Users/marce/Desktop/Cardbase/app/index.html');
-})
+    response.sendFile('./index.html', {root: __dirname});
+});
 
 app.get('/home', function(request, response){
-    response.sendFile('C:/Users/marce/Desktop/Cardbase/app/home.html');
-})
+    response.sendFile('./home.html', {root: __dirname});
+});
 
 app.get('/library', function(request, response){
-    response.sendFile('C:/Users/marce/Desktop/Cardbase/app/library.html');
-})
+    response.sendFile('./library.html', {root: __dirname});
+});
 
 app.get('/deck', function(request, response){
-    response.sendFile('C:/Users/marce/Desktop/Cardbase/app/deck.html');
-})
+    response.sendFile('./deck.html', {root: __dirname});
+});
 
 app.get('/packs', function(request, response){
-    response.sendFile('C:/Users/marce/Desktop/Cardbase/app/packs.html');
-})
+    response.sendFile('./packs.html', {root: __dirname});
+});
 
 //Authorization
 app.post('/auth', function(request, response){
@@ -65,8 +71,7 @@ app.get('/home/:id', function(req, res){
     res.send('Hello User Number: ' + id);
 })
 
-const port = 8080;
-const hostname = '127.0.0.1';
-app.listen(port, function(req, res){
-    console.log(`Server running at http://${hostname}:${port}/`);
-})
+// 404 Page
+app.use(function (request, response){
+    response.status(404).sendFile('./404.html', {root: __dirname});
+});

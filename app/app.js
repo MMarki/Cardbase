@@ -15,7 +15,7 @@ connection.connect(function(err) {
 
 const app = express();
 
-const port = 8080;
+const port = 5000;
 const hostname = '127.0.0.1';
 app.listen(port, function(req, res){
     console.log(`Server running at http://${hostname}:${port}/`);
@@ -36,8 +36,17 @@ app.get('/home', function(request, response){
     response.sendFile('./home.html', {root: __dirname});
 });
 
-app.get('/library', function(request, response){
-    response.sendFile('./library.html', {root: __dirname});
+app.post('/library', function(request, response){
+    connection.query('SELECT id FROM accounts WHERE username = ?', ['test'], function(error, results, fields) {
+        if (results.length > 0) {
+            let id = JSON.parse(JSON.stringify(results[0])).id;
+            response.send(id);
+        } else {
+            response.send('This username does not exist.');
+        }			
+        response.end();
+    });
+    //response.sendFile('./library.html', {root: __dirname});
 });
 
 app.get('/deck', function(request, response){

@@ -1,9 +1,9 @@
 <template>
   <div id="show-blogs">
-      <h1>All Blog Articles</h1>
-      <div v-for="blog in blogs" class="single-blog">
-          <h2>{{ blog.title }}</h2>
-          <article>{{ blog.body }}</article>
+      <h1>Your Card Library:</h1>
+      <div v-for="card in cards" class="single-card">
+          <h2>{{ card.name }}</h2>
+          <article>{{ card.quantity }}</article>
       </div>
   </div>
 </template>
@@ -14,15 +14,15 @@ export default {
 
   data: function () {
     return {
-        blogs: []
+        cards: []
     }
   },
   methods: {
 
   },
   created(){
-      this.$http.get('http://jsonplaceholder.typicode.com/posts').then(function(data){
-          this.blogs = data.body.slice(0,10)
+      this.$http.get('http://127.0.0.1:5000/library', {params: {id: 1}}).then(function(data){
+          this.cards = data.body
       })
   }
 }
@@ -34,7 +34,7 @@ export default {
     margin: 0 auto;
 }
 
-.single-blog{
+.single-card{
     padding:20px;
     margin: 20px;
     box-sizing: border-box;

@@ -36,11 +36,20 @@ app.get('/home', function(request, response){
     response.sendFile('./home.html', {root: __dirname});
 });
 
-app.post('/library', function(request, response){
-    connection.query('SELECT id FROM accounts WHERE username = ?', ['test'], function(error, results, fields) {
+app.get('/library', function(request, response){
+    let id = request.query.id;
+    console.log("id: "+ id);
+    connection.query(
+    'SELECT cardDescriptions.name, cards.quantity FROM cards ' +
+    'INNER JOIN accounts ' +
+    'ON cards.userId = accounts.Id ' +
+    'INNER JOIN cardDescriptions ' +
+    'ON cards.Id = cardDescriptions.cardId '+
+    'WHERE accounts.Id = ?', [id], function(error, results, fields) {
         if (results.length > 0) {
-            let id = JSON.parse(JSON.stringify(results[0])).id;
-            response.send(id);
+            console.log("request made");
+            let card = JSON.parse(JSON.stringify(results));
+            response.send(card);
         } else {
             response.send('This username does not exist.');
         }			

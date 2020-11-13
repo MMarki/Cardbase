@@ -42,9 +42,9 @@ app.get('/library', function(request, response){
     connection.query(
     'SELECT cardDescriptions.name, cards.quantity FROM cards ' +
     'INNER JOIN accounts ' +
-    'ON cards.userId = accounts.Id ' +
+    'ON cards.userId = accounts.id ' +
     'INNER JOIN cardDescriptions ' +
-    'ON cards.Id = cardDescriptions.cardId '+
+    'ON cards.cardDescriptionId = cardDescriptions.id '+
     'WHERE accounts.Id = ?', [id], function(error, results, fields) {
         if (results.length > 0) {
             console.log("request made");
@@ -63,7 +63,24 @@ app.get('/deck', function(request, response){
 });
 
 app.get('/packs', function(request, response){
-    response.sendFile('./packs.html', {root: __dirname});
+    let id = request.query.id;
+    console.log("id: "+ id);
+    connection.query(
+    'SELECT cardDescriptions.name, cards.quantity FROM cards ' +
+    'INNER JOIN accounts ' +
+    'ON cards.userId = accounts.id ' +
+    'INNER JOIN cardDescriptions ' +
+    'ON cards.cardDescriptionId = cardDescriptions.id '+
+    'WHERE accounts.Id = ?', [id], function(error, results, fields) {
+        if (results.length > 0) {
+            console.log("request made");
+            let card = JSON.parse(JSON.stringify(results));
+            response.send(card);
+        } else {
+            response.send('This username does not exist.');
+        }			
+        response.end();
+    });
 });
 
 //Authorization

@@ -3,3 +3,12 @@ build
 npm-debug.log
 .env
 .DS_Store
+yarn-error.log
+dist/
+
+# Editor directories and files
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln

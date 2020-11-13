@@ -7,7 +7,7 @@
     </div>
     <button v-on:click="addCards">Open Pack</button>
     <div v-if="submitted">
-      <h3>Thanks for adding your post!</h3>
+      <h3>Cards have been saved to your library!</h3>
     </div>
   </div>
 </template>

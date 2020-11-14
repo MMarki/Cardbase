@@ -1,13 +1,13 @@
 <template>
   <div id="blogo">
-    <h1>Add a new card to your library</h1>
+    <h1>Add new cards to your library</h1>
     <div v-for="card in cards" class="single-card">
-        <h2>{{ card.name }}</h2>
-        <article>{{ card.quantity }}</article>
+        <h3>{{ card.name }}</h3>
+        <article>{{ card.rarity }}</article>
     </div>
     <button v-on:click="addCards">Open Pack</button>
     <div v-if="submitted">
-      <h3>Cards have been saved to your library!</h3>
+      <h4>Cards have been saved to your library!</h4>
     </div>
   </div>
 </template>
@@ -36,9 +36,6 @@ export default {
 </script>
 
 <style>
-body{
-  font-family: sans-serif;
-}
 #blogo{
   margin:20px auto;
   max-width: 600px;

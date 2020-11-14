@@ -39,13 +39,13 @@ app.get('/home', function(request, response){
 app.get('/library', function(request, response){
     let id = request.query.id;
     console.log("id: "+ id);
-    connection.query(
-    'SELECT cardDescriptions.name, cards.quantity FROM cards ' +
+    let sql = 'SELECT cardDescriptions.name, cards.quantity FROM cards ' +
     'INNER JOIN accounts ' +
     'ON cards.userId = accounts.id ' +
     'INNER JOIN cardDescriptions ' +
     'ON cards.cardDescriptionId = cardDescriptions.id '+
-    'WHERE accounts.Id = ?', [id], function(error, results, fields) {
+    'WHERE accounts.Id = ?'
+    connection.query(sql, [id], function(error, results, fields) {
         if (results.length > 0) {
             console.log("request made");
             let card = JSON.parse(JSON.stringify(results));
@@ -66,7 +66,7 @@ app.get('/packs', function(request, response){
     let id = request.query.id;
     console.log("id: "+ id);
 
-    let rarities = []
+    let rarities = [];
     let commonCards = [];
     let rareCards = [];
 
@@ -90,9 +90,6 @@ app.get('/packs', function(request, response){
                     }
                 }
 
-                console.log(commonCards);
-                console.log(rareCards);
-
                 let packCards = []
 
                 packCards.push(chooseRandom(commonCards));
@@ -102,26 +99,27 @@ app.get('/packs', function(request, response){
 
                 packCards.push(chooseRandom(rareCards));
 
-                console.log(packCards);
+               // console.log(packCards);
                 response.send(packCards);
                 response.end();
 
-                /*connection.query(
-                    'SELECT cardDescriptions.name, cards.quantity FROM cards ' +
-                    'INNER JOIN accounts ' +
-                    'ON cards.userId = accounts.id ' +
-                    'INNER JOIN cardDescriptions ' +
-                    'ON cards.cardDescriptionId = cardDescriptions.id '+
-                    'WHERE accounts.Id = ?', [id], function(error, results, fields) {
-                        if (results.length > 0) {
-                            console.log("request made");
-                            let card = JSON.parse(JSON.stringify(results));
-                            response.send(card);
-                        } else {
-                            response.send('This username does not exist.');
-                        }			
-                        response.end();
-                    });*/
+                const collatedArray = collateArray(packCards);
+
+                for (let j = 0; j < collatedArray.length; j++){
+                    console.log ( id + ':' + collatedArray[j].id +  ':' + collatedArray[j].count);
+                    
+                    //check to see if there's already an entry with a given uid and cardDescriptionId combo.
+                    //Also we should have a combined key to prevent such issues in the cards table
+                    //if so update that, else:
+
+                    let sql = 'INSERT INTO cards (userId, cardDescriptionId, quantity) VALUES (?, ?, ?);';
+                    connection.query( sql,[parseInt(id),collatedArray[j].id, collatedArray[j].count],
+                          function(error, results, fields) {
+                            if (error) throw error;
+                            console.log("card(s) inserted");		
+                            response.end();
+                        });
+                }
 
             } else {
                 console.log('Cannot access the cardDescriptions table.');
@@ -161,4 +159,22 @@ app.use(function (request, response){
 
 function chooseRandom(in_array){
     return in_array[Math.floor(Math.random() * in_array.length)];
+}
+
+function collateArray(in_array){
+    let out_array = [];
+    for (let i = 0; i < in_array.length; i++){
+        let included = false;
+        for(let j = 0; j < out_array.length; j++){
+            if (out_array[j].id === in_array[i].id){
+                included = true;
+                //increment count
+                out_array[j].count += 1;
+            } 
+        }
+        if (!included){
+            out_array.push({'id':in_array[i].id, 'name':in_array[i].name, 'rarity':in_array[i].rarity, 'count':1 });
+        }    
+    }
+    return out_array;
 }

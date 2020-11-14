@@ -3,7 +3,7 @@
       <h1>Your Card Library:</h1>
       <div v-for="card in cards" class="single-card">
           <h2>{{ card.name }}</h2>
-          <article>{{ card.quantity }}</article>
+          <p>{{ card.quantity }}</p>
       </div>
   </div>
 </template>
@@ -29,15 +29,40 @@ export default {
 </script>
 
 <style>
-#show-blogs{
-    max-width: 880px;
-    margin: 0 auto;
-}
-
 .single-card{
-    padding:20px;
+    padding-top: 20px;
+    padding-right: 20px;
+    padding-bottom: 0px;
+    padding-left: 20px;
     margin: 20px;
     box-sizing: border-box;
-    background: #EEF;
+    display: inline-block;
+    background: #fff;
+    border: 1px solid #BBB;
+    width: 250px;
+    border-radius: 20px;
+}
+
+.single-card h3{
+    background: #fff;
+    border: 1px solid #BBB;
+}
+
+.single-card h2{
+    height: 120px;
+}
+
+.single-card p{
+    margin: 20px auto -15px auto;
+    width: 30px;
+    padding:  5px 10px;
+    border-radius: 20px;
+    background-color: #fff;
+    border: 1px solid #BBB;
+    text-align: center; 
+}
+
+button, .button {
+    display: block;
 }
 </style>

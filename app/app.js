@@ -99,26 +99,38 @@ app.get('/packs', function(request, response){
 
                 packCards.push(chooseRandom(rareCards));
 
-               // console.log(packCards);
+                console.log(packCards);
                 response.send(packCards);
                 response.end();
 
                 const collatedArray = collateArray(packCards);
 
                 for (let j = 0; j < collatedArray.length; j++){
-                    console.log ( id + ':' + collatedArray[j].id +  ':' + collatedArray[j].count);
-                    
                     //check to see if there's already an entry with a given uid and cardDescriptionId combo.
-                    //Also we should have a combined key to prevent such issues in the cards table
-                    //if so update that, else:
-
-                    let sql = 'INSERT INTO cards (userId, cardDescriptionId, quantity) VALUES (?, ?, ?);';
-                    connection.query( sql,[parseInt(id),collatedArray[j].id, collatedArray[j].count],
-                          function(error, results, fields) {
-                            if (error) throw error;
-                            console.log("card(s) inserted");		
-                            response.end();
-                        });
+                    let sql = 'SELECT * FROM cards ' 
+                            + 'WHERE  userId = ? AND cardDescriptionId = ? ;';
+                    connection.query( sql, [parseInt(id), collatedArray[j].id], function(error, results, fields) {
+                        //if so update that
+                        if (results.length > 0) {
+                            existingCard = JSON.parse(JSON.stringify(results));
+                            console.log(existingCard);
+                            let sql = 'UPDATE cards SET quantity = ? WHERE userId = ? AND cardDescriptionId = ? ;';
+                            connection.query( sql,[collatedArray[j].count + existingCard[0].quantity, parseInt(id),collatedArray[j].id], function(error, results, fields) {
+                                if (error) throw error;
+                                console.log("card updated");		
+                                response.end();
+                            });
+                        } else {
+                            console.log ( id + ':' + collatedArray[j].id +  ':' + collatedArray[j].count);
+                            let sql = 'INSERT INTO cards (userId, cardDescriptionId, quantity) VALUES (?, ?, ?);';
+                            connection.query( sql,[parseInt(id),collatedArray[j].id, collatedArray[j].count], function(error, results, fields) {
+                                if (error) throw error;
+                                console.log("card(s) inserted");		
+                                response.end();
+                            });
+                        }
+                        response.end();
+                    });   
                 }
 
             } else {

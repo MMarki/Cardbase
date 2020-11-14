@@ -1,6 +1,6 @@
 <template>
   <div>
-    <add-cards></add-cards>
+    <router-view></router-view>
   </div>
 </template>
 

@@ -1,6 +1,12 @@
 <template>
   <div id="blogo">
-    <h1>Add new cards to your library</h1>
+    <nav>
+      <ul>
+          <li><router-link v-bind:to="'/library/' + id" exact>Library</router-link></li>
+          <li><router-link v-bind:to="'/packs/' + id" exact>Pack</router-link></li>
+      </ul>
+    </nav>
+    <h1>Open Your Card Packs:</h1>
     <div v-for="card in cards" v-if="submitted" class="single-card">
         <h3>{{ card.name }}</h3>
         <p>{{ card.rarity }}</p>
@@ -22,13 +28,14 @@ export default {
         {}
       ],
       submitted: false,
-      packCount: 3
+      packCount: 3,
+      id: this.$route.params.id
     }
   },
   methods: {
     addCards: function (){
       this.$http.get('http://127.0.0.1:5000/packs', 
-        {params: {id: 1}}).then(function(data){
+        {params: {id: this.id}}).then(function(data){
           this.cards = data.body
           console.log(data);
       })
@@ -73,5 +80,31 @@ button, .button {
   margin-bottom: 2rem;
   text-align: center;
   font-weight: bold;
+}
+
+ul{
+    list-style-type: none;
+    margin: 0;
+}
+
+li{
+    display: inline-block;
+    margin: 0 16px;
+}
+
+a{
+    color: #333;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 8px 8px;
+}
+
+nav{
+    padding: 16px 0;
+    margin-bottom: 20px;
+}
+
+.router-link-active{
+    border-bottom: 2px solid #1EAEDB;
 }
 </style>

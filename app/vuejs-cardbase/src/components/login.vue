@@ -22,6 +22,7 @@ export default {
       console.log('posting!');
       this.$http.post('http://127.0.0.1:5000/login', { username: this.username }).then(function(data){
           console.log(data.body);
+          this.$router.push({ name: 'library', params: { id: data.body.id } });
       });
     }
   }

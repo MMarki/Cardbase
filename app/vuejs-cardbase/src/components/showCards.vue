@@ -1,5 +1,11 @@
 <template>
   <div id="show-blogs">
+      <nav>
+      <ul>
+          <li><router-link v-bind:to="'/library/' + id" exact>Library</router-link></li>
+          <li><router-link v-bind:to="'/packs/' + id" exact>Pack</router-link></li>
+      </ul>
+    </nav>
       <h1>Your Card Library:</h1>
       <div v-for="card in cards" class="single-card">
           <h2>{{ card.name }}</h2>
@@ -14,14 +20,15 @@ export default {
 
   data: function () {
     return {
-        cards: []
+        cards: [],
+        id: this.$route.params.id
     }
   },
   methods: {
 
   },
   created(){
-      this.$http.get('http://127.0.0.1:5000/library', {params: {id: 1}}).then(function(data){
+      this.$http.get('http://127.0.0.1:5000/library', {params: {id: this.id}}).then(function(data){
           this.cards = data.body
       })
   }
@@ -64,5 +71,31 @@ export default {
 
 button, .button {
     display: block;
+}
+
+ul{
+    list-style-type: none;
+    margin: 0;
+}
+
+li{
+    display: inline-block;
+    margin: 0 16px;
+}
+
+a{
+    color: #333;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 8px 8px;
+}
+
+nav{
+    padding: 16px 0;
+    margin-bottom: 20px;
+}
+
+.router-link-active{
+    border-bottom: 2px solid #1EAEDB;
 }
 </style>

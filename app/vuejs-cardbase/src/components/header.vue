@@ -1,8 +1,8 @@
 <template>
   <nav>
       <ul>
-          <li><router-link to="/" exact>Library</router-link></li>
-          <li><router-link to="/packs" exact>Pack</router-link></li>
+          <li><router-link v-bind:to="'/library/' + id" exact>Library</router-link></li>
+          <li><router-link v-bind:to="'/packs/' + id" exact>Pack</router-link></li>
       </ul>
   </nav>
 </template>
@@ -12,8 +12,12 @@
 export default {
   data: function () {
     return {
-
+        id: this.$route.params.id
     }
+  },
+  created(){
+      this.id = this.$route.params.id;
+      console.log(this.id);
   }
 }
 </script>

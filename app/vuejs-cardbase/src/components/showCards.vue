@@ -28,7 +28,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .single-card{
     padding-top: 20px;
     padding-right: 20px;

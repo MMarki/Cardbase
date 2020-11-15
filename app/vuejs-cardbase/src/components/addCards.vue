@@ -38,13 +38,12 @@ export default {
     showPack: function (){
       this.cards = [];
       this.submitted = false;
-    },
-
+    }
   }
 }
 </script>
 
-<style>
+<style scoped>
 .single-card{
     padding:20px;
     margin: 20px;

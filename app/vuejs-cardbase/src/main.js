@@ -8,8 +8,9 @@ Vue.use(VueResource);
 Vue.use(VueRouter);
 
 const router = new VueRouter({
-  routes: Routes
-})
+  routes: Routes, //the array of routes from our routes.js
+  mode: 'history'
+});
 
 new Vue({
   el: '#app',

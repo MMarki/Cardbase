@@ -45,7 +45,16 @@ export default {
     showPack: function (){
       this.cards = [];
       this.submitted = false;
+    },
+    getPackCount: function (){
+      this.$http.get('http://127.0.0.1:5000/packCount', 
+        {params: {id: this.id}}).then(function(data){
+          this.packCount = data.body[0].packCount;
+      })
     }
+  },
+  created(){
+    this.getPackCount();
   }
 }
 </script>

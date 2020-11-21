@@ -64,6 +64,23 @@ app.get('/library', function(request, response){
     //response.sendFile('./library.html', {root: __dirname});
 });
 
+app.get('/packCount', function(request, response){
+    let id = request.query.id;
+    console.log("id: "+ id);
+    let sql = 'SELECT accounts.packCount ' +
+    'FROM accounts ' +
+    'WHERE accounts.Id = ?'
+    connection.query(sql, [id], function(error, results, fields) {
+        if (results.length > 0) {
+            let count = JSON.parse(JSON.stringify(results));
+            response.send(count);
+        } else {
+            response.send('This username does not exist.');
+        }			
+        response.end();
+    });
+});
+
 app.get('/deck', function(request, response){
     response.sendFile('./deck.html', {root: __dirname});
 });
@@ -138,6 +155,15 @@ app.get('/packs', function(request, response){
                         response.end();
                     });   
                 }
+
+                let sql = 'UPDATE accounts SET packCount = packCount - 1 ' 
+                        + 'WHERE  accounts.id = ? AND accounts.packCount > 0 ;';
+                connection.query( sql, [parseInt(id)], function(error, results, fields) {
+                    //update cardcount
+                    if (error) throw error;
+                    console.log("card total updated");		
+                    response.end();
+                });   
 
             } else {
                 console.log('Cannot access the cardDescriptions table.');

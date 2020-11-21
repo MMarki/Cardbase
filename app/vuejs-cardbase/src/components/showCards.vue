@@ -8,7 +8,8 @@
     </nav>
       <h1>Your Card Library:</h1>
       <div v-for="card in cards" class="single-card">
-          <h2>{{ card.name }}</h2>
+          <img :src="getImagePath(  card.imagePath )">
+          <!--h2>{{ card.name }}</h2-->
           <p>{{ card.quantity }}</p>
       </div>
   </div>
@@ -25,7 +26,10 @@ export default {
     }
   },
   methods: {
-
+      getImagePath: function(in_imgPathFromDB){
+          let imagePath = require('../' + in_imgPathFromDB);
+          return imagePath;
+      }
   },
   created(){
       this.$http.get('http://127.0.0.1:5000/library', {params: {id: this.id}}).then(function(data){
@@ -37,36 +41,30 @@ export default {
 
 <style scoped>
 .single-card{
-    padding-top: 20px;
-    padding-right: 20px;
     padding-bottom: 0px;
-    padding-left: 20px;
     margin: 20px;
     box-sizing: border-box;
     display: inline-block;
-    background: #fff;
+    /*background: #fff;
     border: 1px solid #BBB;
-    width: 250px;
+    width: 250px; */
     border-radius: 20px;
+    height: 440px;
 }
 
-.single-card h3{
-    background: #fff;
-    border: 1px solid #BBB;
+.single-card img{
+    max-width: 280px;
 }
-
-.single-card h2{
-    height: 120px;
-}
-
 .single-card p{
-    margin: 20px auto -15px auto;
+    margin: -24px auto 0px auto;
     width: 30px;
     padding:  5px 10px;
     border-radius: 20px;
     background-color: #fff;
     border: 1px solid #BBB;
     text-align: center; 
+    z-index: 10;
+    position: relative;
 }
 
 button, .button {

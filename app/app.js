@@ -27,9 +27,9 @@ app.use(cors());
 app.use(history());
 app.use(express.urlencoded());
 app.use(express.json());
-app.use('/css', express.static('css'));
-app.use('/images', express.static('images'));
-app.use('/frontend', express.static('frontend'));
+//app.use('/css', express.static('css'));
+//app.use('/assets', express.static('assets'));
+//app.use('/frontend', express.static('frontend'));
 
 //Routing
 app.get('/', function(request, response){
@@ -45,7 +45,7 @@ app.get('/home', function(request, response){
 app.get('/library', function(request, response){
     let id = request.query.id;
     console.log("id: "+ id);
-    let sql = 'SELECT cardDescriptions.name, cards.quantity FROM cards ' +
+    let sql = 'SELECT cardDescriptions.name, cards.quantity, cardDescriptions.imagePath FROM cards ' +
     'INNER JOIN accounts ' +
     'ON cards.userId = accounts.id ' +
     'INNER JOIN cardDescriptions ' +

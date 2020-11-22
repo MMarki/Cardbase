@@ -94,7 +94,7 @@ app.get('/packs', function(request, response){
     let rareCards = [];
 
     connection.query(
-        'SELECT id, name, rarity FROM cardDescriptions ', function(error, results, fields) {
+        'SELECT id, name, rarity, imagePath FROM cardDescriptions ', function(error, results, fields) {
             if (results.length > 0) {
                 rarities = JSON.parse(JSON.stringify(results));
 
@@ -219,7 +219,7 @@ function collateArray(in_array){
             } 
         }
         if (!included){
-            out_array.push({'id':in_array[i].id, 'name':in_array[i].name, 'rarity':in_array[i].rarity, 'count':1 });
+            out_array.push({'id':in_array[i].id, 'name':in_array[i].name, 'rarity':in_array[i].rarity, 'count':1, 'imagePath':in_array[i].imagePath });
         }    
     }
     return out_array;

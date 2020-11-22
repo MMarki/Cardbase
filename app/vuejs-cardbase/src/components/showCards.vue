@@ -45,9 +45,6 @@ export default {
     margin: 20px;
     box-sizing: border-box;
     display: inline-block;
-    /*background: #fff;
-    border: 1px solid #BBB;
-    width: 250px; */
     border-radius: 20px;
     height: 440px;
 }
@@ -65,6 +62,7 @@ export default {
     text-align: center; 
     z-index: 10;
     position: relative;
+    font-weight: bold;
 }
 
 button, .button {

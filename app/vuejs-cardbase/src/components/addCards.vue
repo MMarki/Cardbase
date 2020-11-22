@@ -8,7 +8,7 @@
     </nav>
     <h1>Open Your Card Packs:</h1>
     <div v-for="card in cards" v-if="submitted" class="single-card">
-        <h3>{{ card.name }}</h3>
+        <img :src="getImagePath(  card.imagePath )">
         <p>{{ card.rarity }}</p>
     </div>
     <div v-if="submitted">
@@ -51,6 +51,10 @@ export default {
         {params: {id: this.id}}).then(function(data){
           this.packCount = data.body[0].packCount;
       })
+    },
+    getImagePath: function(in_imgPathFromDB){
+      let imagePath = require('../' + in_imgPathFromDB);
+      return imagePath;
     }
   },
   created(){
@@ -61,24 +65,33 @@ export default {
 
 <style scoped>
 .single-card{
-    padding:20px;
+    padding-bottom: 0px;
     margin: 20px;
     box-sizing: border-box;
-    background: #fff;
-    border: 1px solid #BBB;
     display: inline-block;
-    width: 250px;
-    height: 176px;
     border-radius: 20px;
+    height: 440px;
+}
+
+.single-card img{
+    max-width: 280px;
+}
+.single-card p{
+    margin: -24px auto 0px auto;
+    width: 80px;
+    padding:  5px 10px;
+    border-radius: 20px;
+    background-color: #fff;
+    border: 1px solid #BBB;
+    text-align: center; 
+    z-index: 10;
+    position: relative;
 }
 
 button, .button {
     display: block;
 }
 
-.single-card h2{
-    height: 120px;
-}
 .alert{
   background-color:#d4edda;
   color: #155724;

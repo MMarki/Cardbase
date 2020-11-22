@@ -9,7 +9,7 @@
     <h1>Open Your Card Packs:</h1>
     <div v-for="card in cards" v-if="submitted" class="single-card">
         <img :src="getImagePath(  card.imagePath )">
-        <p>{{ card.rarity }}</p>
+        <p>{{ card.rarity | unAbbreviate }}</p>
     </div>
     <div v-if="submitted">
       <p class="alert">These cards have been saved to your library :)</p>
@@ -59,6 +59,14 @@ export default {
   },
   created(){
     this.getPackCount();
+  }, 
+  filters: {
+    unAbbreviate: function (in_string) {
+      let out_string = in_string;
+      if (in_string === 'UNCOMN') out_string = 'UNCOMMON'
+      return out_string;
+      value = value.toString()
+    }
   }
 }
 </script>
@@ -78,7 +86,7 @@ export default {
 }
 .single-card p{
     margin: -24px auto 0px auto;
-    width: 80px;
+    width: 95px;
     padding:  5px 10px;
     border-radius: 20px;
     background-color: #fff;

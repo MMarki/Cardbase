@@ -1,6 +1,6 @@
 const mysql = require('mysql');
 const express = require('express');
-const history = require('connect-history-api-fallback');
+//const history = require('connect-history-api-fallback');
 const cors = require('cors');
 
 let connection = mysql.createConnection({
@@ -18,28 +18,24 @@ connection.connect(function(err) {
 const app = express();
 
 const port = 5000;
-const hostname = '127.0.0.1';
 app.listen(port, function(req, res){
-    console.log(`Server running at http://${hostname}:${port}/`);
+    console.log(`Server listening on port: ${port}`);
 })
 
 app.use(cors());
-app.use(history());
+//app.use(history());
+
+//built-in middleware
 app.use(express.urlencoded());
 app.use(express.json());
-//app.use('/css', express.static('css'));
-//app.use('/assets', express.static('assets'));
-//app.use('/frontend', express.static('frontend'));
+
+//static resource delivery
+app.use('/src', express.static('src'));
+app.use('/dist', express.static('dist'));
 
 //Routing
 app.get('/', function(request, response){
-    console.log('/');
     response.sendFile('./index.html', {root: __dirname});
-});
-
-app.get('/home', function(request, response){
-    console.log('/home')
-    response.sendFile('./home.html', {root: __dirname});
 });
 
 app.get('/library', function(request, response){

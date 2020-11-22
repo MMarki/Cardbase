@@ -106,7 +106,6 @@ app.get('/packs', function(request, response){
                     else if (card.rarity === 'UNCOMN'){
                         rareCards.push(card);
                         rareCards.push(card);
-                        rareCards.push(card);
                     }
                     else if (card.rarity === 'RARE'){
                         rareCards.push(card);

@@ -32,7 +32,7 @@ export default {
       }
   },
   created(){
-      this.$http.get('http://104.162.128.255/library', {params: {id: this.id}}).then(function(data){
+      this.$http.get('http://104.162.128.255:5000/library', {params: {id: this.id}}).then(function(data){
           this.cards = data.body
       })
   }

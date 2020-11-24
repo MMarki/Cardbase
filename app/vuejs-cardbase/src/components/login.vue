@@ -24,7 +24,7 @@ export default {
   methods: {
     auth: function (){
       console.log('posting!');
-      this.$http.post('http://127.0.0.1:5000/login', { username: this.username }).then(function(data){
+      this.$http.post('http://104.162.128.255/login', { username: this.username }).then(function(data){
           console.log(data.body);
           if (data.body.id !== undefined){
             this.error = 0;

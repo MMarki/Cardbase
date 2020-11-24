@@ -34,7 +34,7 @@ export default {
   },
   methods: {
     addCards: function (){
-      this.$http.get('http://127.0.0.1:5000/packs', 
+      this.$http.get('http://104.162.128.255:5000/packs', 
         {params: {id: this.id}}).then(function(data){
           this.cards = data.body
           console.log(data);
@@ -47,7 +47,7 @@ export default {
       this.submitted = false;
     },
     getPackCount: function (){
-      this.$http.get('http://127.0.0.1:5000/packCount', 
+      this.$http.get('http://104.162.128.255:5000/packCount', 
         {params: {id: this.id}}).then(function(data){
           this.packCount = data.body[0].packCount;
       })

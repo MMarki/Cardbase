@@ -7,7 +7,7 @@
       </ul>
     </nav>
       <h1>Your Card Library:</h1>
-      <div v-for="card in cards" class="single-card">
+      <div v-for="card in cards" class="single-card" v-bind:key="card.id">
           <img :src="getImagePath(  card.imagePath )">
           <!--h2>{{ card.name }}</h2-->
           <p>{{ card.quantity }}</p>
@@ -27,7 +27,11 @@ export default {
   },
   methods: {
       getImagePath: function(in_imgPathFromDB){
-          let imagePath = require('../' + in_imgPathFromDB);
+          console.log(in_imgPathFromDB)
+          let imagePath = '../public/' + 'assets/cards/twitcher.png';
+          if (in_imgPathFromDB != undefined){
+              imagePath = '../public/' + in_imgPathFromDB;
+          }
           return imagePath;
       }
   },

@@ -30,8 +30,10 @@ app.use(express.urlencoded());
 app.use(express.json());
 
 //static resource delivery
+app.use('/public', express.static('public'));
 app.use('/src', express.static('src'));
 app.use('/dist', express.static('dist'));
+
 
 //Routing
 app.get('/', function(request, response){

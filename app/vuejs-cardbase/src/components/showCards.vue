@@ -7,7 +7,7 @@
       </ul>
     </nav>
       <h1>Your Card Library:</h1>
-      <div v-for="card in cards" class="single-card" v-bind:key="card.id">
+      <div v-for="card in cards" class="single-card" v-bind:key="card.name">
           <img :src="getImagePath(  card.imagePath )">
           <!--h2>{{ card.name }}</h2-->
           <p>{{ card.quantity }}</p>

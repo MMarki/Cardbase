@@ -8,7 +8,7 @@
     </nav>
     <h1>Open Your Card Packs:</h1>
     <div v-if="submitted" >
-      <div v-for="card in cards" class="single-card" v-bind:key='card.id'>
+      <div v-for="card in cards" class="single-card" v-bind:key='card.name'>
           <img :src="getImagePath(  card.imagePath )">
           <p>{{ card.rarity | unAbbreviate }}</p>
       </div>
@@ -55,7 +55,7 @@ export default {
     getImagePath: function(in_imgPathFromDB){
       let imagePath = '../public/' + 'assets/cards/twitcher.png';
       if (in_imgPathFromDB != undefined){
-          imagePath = '../public' + in_imgPathFromDB;
+          imagePath = '../public/' + in_imgPathFromDB;
       }
       return imagePath;
     }

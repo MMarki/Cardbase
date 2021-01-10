@@ -57,9 +57,7 @@ app.get('/library', function(request, response){
         } else {
             response.send('This username does not exist.');
         }			
-        response.end();
     });
-    //response.sendFile('./library.html', {root: __dirname});
 });
 
 app.get('/packCount', function(request, response){
@@ -75,7 +73,6 @@ app.get('/packCount', function(request, response){
         } else {
             response.send('This username does not exist.');
         }			
-        response.end();
     });
 });
 
@@ -121,7 +118,6 @@ app.get('/packs', function(request, response){
 
                 console.log(packCards);
                 response.send(packCards);
-                response.end();
 
                 const collatedArray = collateArray(packCards);
 
@@ -138,7 +134,6 @@ app.get('/packs', function(request, response){
                             connection.query( sql,[collatedArray[j].count + existingCard[0].quantity, parseInt(id),collatedArray[j].id], function(error, results, fields) {
                                 if (error) throw error;
                                 console.log("card updated");		
-                                response.end();
                             });
                         } else {
                             console.log ( id + ':' + collatedArray[j].id +  ':' + collatedArray[j].count);
@@ -146,10 +141,8 @@ app.get('/packs', function(request, response){
                             connection.query( sql,[parseInt(id),collatedArray[j].id, collatedArray[j].count], function(error, results, fields) {
                                 if (error) throw error;
                                 console.log("card(s) inserted");		
-                                response.end();
                             });
                         }
-                        response.end();
                     });   
                 }
 
@@ -159,7 +152,6 @@ app.get('/packs', function(request, response){
                     //update cardcount
                     if (error) throw error;
                     console.log("card total updated");		
-                    response.end();
                 });   
 
             } else {
@@ -180,11 +172,9 @@ app.post('/login', function(request, response){
 			} else {
 				response.send('This username does not exist.');
 			}			
-			response.end();
 		});
 	} else {
 		response.send('Please enter username.');
-		response.end();
     }
 })
 
@@ -195,8 +185,6 @@ app.get('/home/:id', function(req, res){
 
 // 404 Page
 app.use(function (request, response){
-    //console.log(request);
-    //console.log(response);
     response.status(404).sendFile('./404.html', {root: __dirname});
 });
 

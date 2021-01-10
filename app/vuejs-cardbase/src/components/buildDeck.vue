@@ -7,12 +7,23 @@
         <li><router-link v-bind:to="'/packs/' + id" exact>Pack</router-link></li>
       </ul>
     </nav>
-    <h1>Your Deck:</h1>
-    <div v-for="card in cards" class="single-card" v-bind:key="card.name">
-      <img :src="getImagePath(  card.imagePath )">
-      <!--h2>{{ card.name }}</h2-->
-      <p>{{ card.reservedQuantity + "/" + card.quantity }}</p>
-    </div>
+    <div class="full-width">
+      <div class="six columns first-column">
+        <div v-for="card in cards" class="single-card" v-bind:key="card.name">
+          <img :src="getImagePath(  card.imagePath )">
+          <!--h2>{{ card.name }}</h2-->
+          <p>{{ card.reservedQuantity + "/" + card.quantity }}</p>
+          <button v-on:click="subtractFromDeck(card)" v-if="card.reservedQuantity > 0">Subtract</button>
+          <button v-on:click="addToDeck(card)" v-if="card.reservedQuantity < card.quantity">Add</button>
+        </div>
+        </div>
+        <div class="six columns">
+        <div v-for="card in reservedCards" class="single-card" v-bind:key="card.name">
+          <img v-if="card.reservedQuantity > 0" :src="getImagePath(  card.imagePath )">
+          <p v-if="card.reservedQuantity > 0">{{ card.reservedQuantity }}</p>
+        </div>
+      </div>
+    <div>
   </div>
 </template>
 
@@ -34,6 +45,21 @@ export default {
               imagePath = '../public/' + in_imgPathFromDB;
           }
           return imagePath;
+      },
+      addToDeck: function(in_card){
+          if (in_card.reservedQuantity < in_card.quantity){
+              in_card.reservedQuantity += 1;
+          } 
+      },
+      subtractFromDeck: function(in_card){
+          if (in_card.reservedQuantity > 0){
+              in_card.reservedQuantity -= 1;
+          } 
+      }
+  },
+  computed: {
+      reservedCards: function(){
+          return this.cards.filter(i => i.reservedQuantity > 0);
       }
   },
   created(){
@@ -54,6 +80,17 @@ export default {
     height: 440px;
 }
 
+.full-width {
+    width:100vw;
+    margin-left: calc(-1 * ((100vw - 100%) / 2));
+    padding-left:20px;
+    padding-right:20px;
+}
+
+.first-column {
+    border-right: #BBBBBB 2px solid;
+}
+
 .single-card img{
     max-width: 280px;
 }
@@ -71,7 +108,8 @@ export default {
 }
 
 button, .button {
-    display: block;
+    display: inline-block;
+    width: 50%;
 }
 
 ul{

@@ -55,7 +55,7 @@ app.get('/library', function(request, response){
             let card = JSON.parse(JSON.stringify(results));
             response.send(card);
         } else {
-            response.send('This username does not exist.');
+            response.send('This user has no cards.');
         }			
     });
 });
@@ -77,7 +77,23 @@ app.get('/packCount', function(request, response){
 });
 
 app.get('/deck', function(request, response){
-    response.sendFile('./deck.html', {root: __dirname});
+    let id = request.query.id;
+    console.log("id: "+ id);
+    let sql = 'SELECT cardDescriptions.name, cards.quantity, cards.reservedQuantity, cardDescriptions.imagePath FROM cards ' +
+    'INNER JOIN accounts ' +
+    'ON cards.userId = accounts.id ' +
+    'INNER JOIN cardDescriptions ' +
+    'ON cards.cardDescriptionId = cardDescriptions.id '+
+    'WHERE accounts.Id = ?'
+    connection.query(sql, [id], function(error, results, fields) {
+        if (results.length > 0) {
+            console.log("request made");
+            let card = JSON.parse(JSON.stringify(results));
+            response.send(card);
+        } else {
+            response.send('This user has no cards');
+        }			
+    });
 });
 
 app.get('/packs', function(request, response){

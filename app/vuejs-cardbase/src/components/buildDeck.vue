@@ -1,18 +1,18 @@
 <template>
   <div>
-      <nav>
-        <ul>
-          <li><router-link v-bind:to="'/library/' + id" exact>Library</router-link></li>
-          <li><router-link v-bind:to="'/deck/' + id" exact>Deck</router-link></li>
-          <li><router-link v-bind:to="'/packs/' + id" exact>Pack</router-link></li>
-        </ul>
-      </nav>
-      <h1>Your Card Library:</h1>
-      <div v-for="card in cards" class="single-card" v-bind:key="card.name">
-        <img :src="getImagePath(  card.imagePath )">
-        <!--h2>{{ card.name }}</h2-->
-        <p>{{ card.quantity }}</p>
-      </div>
+    <nav>
+      <ul>
+        <li><router-link v-bind:to="'/library/' + id" exact>Library</router-link></li>
+        <li><router-link v-bind:to="'/deck/' + id" exact>Deck</router-link></li>
+        <li><router-link v-bind:to="'/packs/' + id" exact>Pack</router-link></li>
+      </ul>
+    </nav>
+    <h1>Your Deck:</h1>
+    <div v-for="card in cards" class="single-card" v-bind:key="card.name">
+      <img :src="getImagePath(  card.imagePath )">
+      <!--h2>{{ card.name }}</h2-->
+      <p>{{ card.reservedQuantity + "/" + card.quantity }}</p>
+    </div>
   </div>
 </template>
 
@@ -37,7 +37,7 @@ export default {
       }
   },
   created(){
-      this.$http.get('http://104.162.128.255:5000/library', {params: {id: this.id}}).then(function(data){
+      this.$http.get('http://104.162.128.255:5000/deck', {params: {id: this.id}}).then(function(data){
           this.cards = data.body
       })
   }

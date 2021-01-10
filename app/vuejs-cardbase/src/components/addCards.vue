@@ -3,6 +3,7 @@
     <nav>
       <ul>
           <li><router-link v-bind:to="'/library/' + id" exact>Library</router-link></li>
+          <li><router-link v-bind:to="'/deck/' + id" exact>Deck</router-link></li>
           <li><router-link v-bind:to="'/packs/' + id" exact>Pack</router-link></li>
       </ul>
     </nav>

@@ -144,6 +144,8 @@ button, .button {
     width: 50%;
     flex-grow: 1;
     font-size:13px;
+    margin-left:4px;
+    margin-right:4px;
 }
 
 ul{

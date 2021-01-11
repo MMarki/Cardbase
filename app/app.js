@@ -79,7 +79,7 @@ app.get('/packCount', function(request, response){
 app.get('/deck', function(request, response){
     let id = request.query.id;
     console.log("id: "+ id);
-    let sql = 'SELECT cardDescriptions.name, cards.quantity, cards.reservedQuantity, cardDescriptions.imagePath FROM cards ' +
+    let sql = 'SELECT cardDescriptions.name, cards.quantity, cards.reservedQuantity, cardDescriptions.imagePath, cardDescriptions.rarity, cardDescriptions.cost FROM cards ' +
     'INNER JOIN accounts ' +
     'ON cards.userId = accounts.id ' +
     'INNER JOIN cardDescriptions ' +

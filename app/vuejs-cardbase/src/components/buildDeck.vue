@@ -7,17 +7,22 @@
         <li><router-link v-bind:to="'/packs/' + id" exact>Pack</router-link></li>
       </ul>
     </nav>
+    <h1>{{"Deck Score: +" + deckScore}}</h1>
     <div class="full-width">
       <div class="six columns first-column">
+        <h3>Library</h3>
         <div v-for="card in cards" class="single-card" v-bind:key="card.name">
           <img :src="getImagePath(  card.imagePath )">
           <!--h2>{{ card.name }}</h2-->
           <p>{{ card.reservedQuantity + "/" + card.quantity }}</p>
-          <button v-on:click="subtractFromDeck(card)" v-if="card.reservedQuantity > 0">Subtract</button>
-          <button v-on:click="addToDeck(card)" v-if="card.reservedQuantity < card.quantity">Add</button>
+          <div class="button-container">
+            <button v-on:click="subtractFromDeck(card)" v-if="card.reservedQuantity > 0">Subtract</button>
+            <button v-on:click="addToDeck(card)" v-if="card.reservedQuantity < card.quantity">Add</button>
+          </div>
         </div>
-        </div>
-        <div class="six columns">
+      </div>
+      <div class="six columns second-column">
+        <h3>Deck</h3>
         <div v-for="card in reservedCards" class="single-card" v-bind:key="card.name">
           <img v-if="card.reservedQuantity > 0" :src="getImagePath(  card.imagePath )">
           <p v-if="card.reservedQuantity > 0">{{ card.reservedQuantity }}</p>
@@ -60,6 +65,22 @@ export default {
   computed: {
       reservedCards: function(){
           return this.cards.filter(i => i.reservedQuantity > 0);
+      },
+      deckScore: function(){
+        let out_deckScore = 0
+        let deckScoreNoCost = 0;
+        let deckScoreUncommon = 0;
+        let deckScoreRare = 0;
+        let deckCards = this.cards.filter(i => i.reservedQuantity > 0);
+        for (let card of this.cards){
+            if (card.rarity === 'UNCOMN') deckScoreUncommon += (1 * card.reservedQuantity);
+            else if (card.rarity === 'RARE') deckScoreRare += (1 * card.reservedQuantity);
+            if (card.cost === 'NO') deckScoreNoCost += (1 * card.reservedQuantity);
+        }
+
+        out_deckScore = Math.min(Math.floor(deckScoreUncommon / 5), 2) + Math.min(Math.floor(deckScoreRare / 3), 2) + Math.min(Math.floor(deckScoreNoCost/5), 1);
+
+        return out_deckScore;
       }
   },
   created(){
@@ -81,14 +102,20 @@ export default {
 }
 
 .full-width {
-    width:100vw;
+    width:96vw;
     margin-left: calc(-1 * ((100vw - 100%) / 2));
     padding-left:20px;
     padding-right:20px;
+    box-sizing:border-box;
 }
 
 .first-column {
     border-right: #BBBBBB 2px solid;
+}
+
+.first-column, .second-column{
+    overflow-y:auto;
+    height:75vh;
 }
 
 .single-card img{
@@ -107,9 +134,16 @@ export default {
     font-weight: bold;
 }
 
+.button-container {
+    display:flex;
+    margin-top: 10px;
+}
+
 button, .button {
     display: inline-block;
     width: 50%;
+    flex-grow: 1;
+    font-size:13px;
 }
 
 ul{

@@ -7,7 +7,8 @@
         <li><router-link v-bind:to="'/packs/' + id" exact>Pack</router-link></li>
       </ul>
     </nav>
-    <h1>{{"Deck Score: +" + deckScore}}</h1>
+    <h1 class="score-text">{{"Deck Score: +" + deckScore}}</h1>
+    <button v-on:click="saveDeck()" class='primary'>SAVE DECK</button>
     <div class="full-width">
       <div class="six columns first-column">
         <h3>Library</h3>
@@ -16,8 +17,8 @@
           <!--h2>{{ card.name }}</h2-->
           <p>{{ card.reservedQuantity + "/" + card.quantity }}</p>
           <div class="button-container">
-            <button v-on:click="subtractFromDeck(card)" v-if="card.reservedQuantity > 0">Subtract</button>
-            <button v-on:click="addToDeck(card)" v-if="card.reservedQuantity < card.quantity">Add</button>
+            <button class="add" v-on:click="subtractFromDeck(card)" v-if="card.reservedQuantity > 0">Subtract</button>
+            <button class="subtract" v-on:click="addToDeck(card)" v-if="card.reservedQuantity < card.quantity">Add</button>
           </div>
         </div>
       </div>
@@ -102,11 +103,12 @@ export default {
 }
 
 .full-width {
-    width:96vw;
-    margin-left: calc(-1 * ((100vw - 100%) / 2));
+    /*width:96vw;*/
+    /*margin-left: calc(-1 * ((100vw - 100%) / 2));*/
     padding-left:20px;
     padding-right:20px;
     box-sizing:border-box;
+    clear:both;
 }
 
 .first-column {
@@ -116,6 +118,31 @@ export default {
 .first-column, .second-column{
     overflow-y:auto;
     height:75vh;
+}
+
+h1.score-text{
+    float:right;
+}
+
+button.primary {
+    background-color: #1EAEDB;
+    color: #fff;
+    max-width: 160px;
+    float:right;
+    border-color:white;
+    height:60px;
+}
+
+.add {
+    background-color: #F14668;
+    color: #fff;
+    border-color:white;
+}
+
+.subtract {
+    background-color: #48C774;
+    color: #fff;
+    border-color:white;
 }
 
 .single-card img{

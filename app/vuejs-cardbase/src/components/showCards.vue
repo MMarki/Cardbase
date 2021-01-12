@@ -4,14 +4,14 @@
         <ul>
           <li><router-link v-bind:to="'/library/' + id" exact>Library</router-link></li>
           <li><router-link v-bind:to="'/deck/' + id" exact>Deck</router-link></li>
-          <li><router-link v-bind:to="'/packs/' + id" exact>Pack</router-link></li>
+          <li><router-link v-bind:to="'/packs/' + id" exact>Packs</router-link></li>
         </ul>
       </nav>
       <h1>Your Card Library:</h1>
+      <p v-if="!Array.isArray(cards)">Open packs to build your library.</p>
       <div v-for="card in cards" class="single-card" v-bind:key="card.name">
         <img v-if="Array.isArray(cards)" :src="getImagePath(  card.imagePath )">
         <p v-if="Array.isArray(cards)">{{ card.quantity }}</p>
-        <p v-if="!Array.isArray(cards)">Open packs to build your library.</p>
       </div>
   </div>
 </template>

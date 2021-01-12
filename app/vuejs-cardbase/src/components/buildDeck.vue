@@ -61,6 +61,14 @@ export default {
           if (in_card.reservedQuantity > 0){
               in_card.reservedQuantity -= 1;
           } 
+      },
+      saveDeck: function(){
+        for (let card of this.cards){
+            if (card.initialReservedQuantity !== card.reservedQuantity && card.reservedQuantity <= card.quantity){
+                console.log(card.initialReservedQuantity)
+                this.$http.post('http://104.162.128.255:5000/saveDeck', {params: {id: this.id, name: card.name, reserved: card.reservedQuantity}}).then(function(data){});
+            }
+        }
       }
   },
   computed: {
@@ -86,8 +94,14 @@ export default {
   },
   created(){
       this.$http.get('http://104.162.128.255:5000/deck', {params: {id: this.id}}).then(function(data){
-          this.cards = data.body
+          this.cards = data.body;
+          //keep track of initial reserved quantity
+          for (let i = 0; i < this.cards.length; i++){
+            this.cards[i].initialReservedQuantity = this.cards[i].reservedQuantity;
+          }
       })
+      
+      
   }
 }
 </script>
@@ -121,7 +135,7 @@ export default {
 }
 
 h1.score-text{
-    float:right;
+    float:left;
 }
 
 button.primary {

@@ -119,8 +119,6 @@ export default {
 .full-width {
     /*width:96vw;*/
     /*margin-left: calc(-1 * ((100vw - 100%) / 2));*/
-    padding-left:20px;
-    padding-right:20px;
     box-sizing:border-box;
     clear:both;
 }

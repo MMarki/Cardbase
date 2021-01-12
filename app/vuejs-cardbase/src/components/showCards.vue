@@ -9,9 +9,9 @@
       </nav>
       <h1>Your Card Library:</h1>
       <div v-for="card in cards" class="single-card" v-bind:key="card.name">
-        <img :src="getImagePath(  card.imagePath )">
-        <!--h2>{{ card.name }}</h2-->
-        <p>{{ card.quantity }}</p>
+        <img v-if="Array.isArray(cards)" :src="getImagePath(  card.imagePath )">
+        <p v-if="Array.isArray(cards)">{{ card.quantity }}</p>
+        <p v-if="!Array.isArray(cards)">Open packs to build your library.</p>
       </div>
   </div>
 </template>

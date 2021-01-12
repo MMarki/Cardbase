@@ -153,7 +153,7 @@ app.get('/packs', function(request, response){
                             });
                         } else {
                             console.log ( id + ':' + collatedArray[j].id +  ':' + collatedArray[j].count);
-                            let sql = 'INSERT INTO cards (userId, cardDescriptionId, quantity) VALUES (?, ?, ?);';
+                            let sql = 'INSERT INTO cards (userId, cardDescriptionId, quantity, reservedQuantity) VALUES (?, ?, ?, 0);';
                             connection.query( sql,[parseInt(id),collatedArray[j].id, collatedArray[j].count], function(error, results, fields) {
                                 if (error) throw error;
                                 console.log("card(s) inserted");		

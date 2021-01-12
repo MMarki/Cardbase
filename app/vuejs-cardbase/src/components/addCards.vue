@@ -9,14 +9,14 @@
     </nav>
     <h1>Open Your Card Packs:</h1>
     <div v-if="submitted" >
+      <button class="primary" v-on:click="showPack">Next Pack</button>
+      <p class="alert">These cards have been saved to your library :)</p>
       <div v-for="card in cards" class="single-card" v-bind:key='card.name'>
           <img :src="getImagePath(  card.imagePath )">
           <p>{{ card.rarity | unAbbreviate }}</p>
       </div>
-      <p class="alert">These cards have been saved to your library :)</p>
     </div>
-    <button v-on:click="addCards" v-if="!submitted && packCount>0">Open Pack ({{ packCount }})</button>
-    <button v-on:click="showPack" v-if="submitted">Next Pack</button>
+    <button class="primary" v-on:click="addCards" v-if="!submitted && packCount>0">Open Pack ({{ packCount }})</button>
     <p v-if="!submitted && packCount===0">No More Card Packs, Gamers</p>
   </div>
 </template>
@@ -29,7 +29,7 @@ export default {
         {}
       ],
       submitted: false,
-      packCount: 3,
+      packCount: 0,
       id: this.$route.params.id
     }
   },
@@ -131,6 +131,13 @@ a{
     text-decoration: none;
     font-weight: bold;
     padding: 8px 8px;
+}
+
+button.primary {
+    background-color: #1EAEDB;
+    color: #fff;
+    max-width: 160px;
+    border-color:white;
 }
 
 nav{

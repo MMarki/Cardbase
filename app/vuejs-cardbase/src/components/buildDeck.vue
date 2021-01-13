@@ -8,6 +8,7 @@
       </ul>
     </nav>
     <h1 class="score-text">{{"Deck Score: +" + deckScore}}</h1>
+    <h5 class= "score-text">{{ "Deck Size: " + deckSize + "/30" }}</h5>
     <button v-on:click="saveDeck()" class='primary'>SAVE DECK</button>
     <div class="full-width">
       <div class="six columns first-column">
@@ -17,8 +18,8 @@
           <!--h2>{{ card.name }}</h2-->
           <p>{{ card.reservedQuantity + "/" + card.quantity }}</p>
           <div class="button-container">
-            <button class="add" v-on:click="subtractFromDeck(card)" v-if="card.reservedQuantity > 0">Subtract</button>
-            <button class="subtract" v-on:click="addToDeck(card)" v-if="card.reservedQuantity < card.quantity">Add</button>
+            <button class="subtract" v-on:click="subtractFromDeck(card)" v-if="card.reservedQuantity > 0">Subtract</button>
+            <button class="add" v-on:click="addToDeck(card)" v-if="card.reservedQuantity < card.quantity && deckSize < 30">Add</button>
           </div>
         </div>
       </div>
@@ -40,7 +41,8 @@ export default {
   data: function () {
     return {
         cards: [],
-        id: this.$route.params.id
+        id: this.$route.params.id,
+        deckSize: 0
     }
   },
   methods: {
@@ -80,8 +82,10 @@ export default {
         let deckScoreNoCost = 0;
         let deckScoreUncommon = 0;
         let deckScoreRare = 0;
+        this.deckSize = 0;
         let deckCards = this.cards.filter(i => i.reservedQuantity > 0);
-        for (let card of this.cards){
+        for (let card of deckCards){
+            this.deckSize += (1*card.reservedQuantity);
             if (card.rarity === 'UNCOMN') deckScoreUncommon += (1 * card.reservedQuantity);
             else if (card.rarity === 'RARE') deckScoreRare += (1 * card.reservedQuantity);
             if (card.cost === 'NO') deckScoreNoCost += (1 * card.reservedQuantity);
@@ -132,8 +136,13 @@ export default {
     height:75vh;
 }
 
-h1.score-text{
+.score-text{
     float:left;
+}
+
+h5 {
+    margin-left:24px;
+    margin-top: 12px;
 }
 
 button.primary {
@@ -145,13 +154,13 @@ button.primary {
     height:60px;
 }
 
-.add {
+.subtract {
     background-color: #F14668;
     color: #fff;
     border-color:white;
 }
 
-.subtract {
+.add {
     background-color: #48C774;
     color: #fff;
     border-color:white;

@@ -197,20 +197,24 @@ app.post('/login', function(request, response){
 //Authorization
 app.post('/saveDeck', function(request, response){
     let id = request.body.params.id;
-    let cardName = request.body.params.name;
-    let reservedQuantity = request.body.params.reserved;
-    console.log(id + ":" + cardName + ":" + reservedQuantity);
+    let cardsToUpdate = request.body.params.cards;
+    
     if (id) {
-        let sql = 'UPDATE cards '
-                + 'INNER JOIN cardDescriptions ' 
-                + 'ON cardDescriptions.id = cards.cardDescriptionId '
-                + 'SET cards.reservedQuantity = ? '
-                + 'WHERE cards.userId = ? AND cardDescriptions.`name` = ?; '
-
-        connection.query( sql, [reservedQuantity, parseInt(id), cardName ], function(error, results, fields) {
-            if (error) throw error;
-            console.log("reserved quantity updated");		
-        });  
+        for (cardToUpdate of cardsToUpdate){
+            let cardName = cardToUpdate.name;
+            let reservedQuantity = cardToUpdate.reserved;
+            console.log(id + ":" + cardName + ":" + reservedQuantity);
+            let sql = 'UPDATE cards '
+                    + 'INNER JOIN cardDescriptions ' 
+                    + 'ON cardDescriptions.id = cards.cardDescriptionId '
+                    + 'SET cards.reservedQuantity = ? '
+                    + 'WHERE cards.userId = ? AND cardDescriptions.`name` = ?; '
+    
+            connection.query( sql, [reservedQuantity, parseInt(id), cardName ], function(error, results, fields) {
+                if (error) throw error;
+                console.log("reserved quantity updated");		
+            });
+        }
 	} else {
 		response.send('Trying to update deck without a valid ID');
     }

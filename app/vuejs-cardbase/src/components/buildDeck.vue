@@ -64,12 +64,18 @@ export default {
           } 
       },
       saveDeck: function(){
-        for (let card of this.cards){
-            if (card.initialReservedQuantity !== card.reservedQuantity && card.reservedQuantity <= card.quantity){
-                console.log(card.initialReservedQuantity)
-                this.$http.post('http://104.162.128.255:5000/saveDeck', {params: {id: this.id, name: card.name, reserved: card.reservedQuantity}}).then(function(data){});
+        let passedParams = {
+            params: {
+                id: this.id,
+                cards: []
             }
         }
+        for (let card of this.cards){
+            if (card.initialReservedQuantity !== card.reservedQuantity && card.reservedQuantity <= card.quantity){
+                passedParams.params.cards.push({name: card.name, reserved: card.reservedQuantity});
+            }
+        }
+        this.$http.post('http://104.162.128.255:5000/saveDeck', passedParams).then(function(data){});
       }
   },
   computed: {

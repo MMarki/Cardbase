@@ -10,12 +10,11 @@
     <h1 class="score-text">{{"Deck Score: +" + deckScore}}</h1>
     <h5 class= "score-text">{{ "Deck Size: " + deckSize + "/30" }}</h5>
     <button v-on:click="saveDeck()" class='primary'>SAVE DECK</button>
-    <div class="full-width">
+    <div v-if="Array.isArray(cards)" class="full-width">
       <div class="six columns first-column">
         <h3>Library</h3>
         <div v-for="card in cards" class="single-card" v-bind:key="card.name">
           <img :src="getImagePath(  card.imagePath )">
-          <!--h2>{{ card.name }}</h2-->
           <p>{{ card.reservedQuantity + "/" + card.quantity }}</p>
           <div class="button-container">
             <button class="subtract" v-on:click="subtractFromDeck(card)" v-if="card.reservedQuantity > 0">Subtract</button>
@@ -75,7 +74,9 @@ export default {
   },
   computed: {
       reservedCards: function(){
-          return this.cards.filter(i => i.reservedQuantity > 0);
+        if(Array.isArray(this.cards)){
+            return this.cards.filter(i => i.reservedQuantity > 0);
+        }
       },
       deckScore: function(){
         let out_deckScore = 0
@@ -83,14 +84,15 @@ export default {
         let deckScoreUncommon = 0;
         let deckScoreRare = 0;
         this.deckSize = 0;
-        let deckCards = this.cards.filter(i => i.reservedQuantity > 0);
-        for (let card of deckCards){
-            this.deckSize += (1*card.reservedQuantity);
-            if (card.rarity === 'UNCOMN') deckScoreUncommon += (1 * card.reservedQuantity);
-            else if (card.rarity === 'RARE') deckScoreRare += (1 * card.reservedQuantity);
-            if (card.cost === 'NO') deckScoreNoCost += (1 * card.reservedQuantity);
+        if(Array.isArray(this.cards)){
+            let deckCards = this.cards.filter(i => i.reservedQuantity > 0);
+            for (let card of deckCards){
+                this.deckSize += (1*card.reservedQuantity);
+                if (card.rarity === 'UNCOMN') deckScoreUncommon += (1 * card.reservedQuantity);
+                else if (card.rarity === 'RARE') deckScoreRare += (1 * card.reservedQuantity);
+                if (card.cost === 'NO') deckScoreNoCost += (1 * card.reservedQuantity);
+            }
         }
-
         out_deckScore = Math.min(Math.floor(deckScoreUncommon / 5), 2) + Math.min(Math.floor(deckScoreRare / 3), 2) + Math.min(Math.floor(deckScoreNoCost/5), 1);
 
         return out_deckScore;
@@ -100,8 +102,10 @@ export default {
       this.$http.get('http://104.162.128.255:5000/deck', {params: {id: this.id}}).then(function(data){
           this.cards = data.body;
           //keep track of initial reserved quantity
-          for (let i = 0; i < this.cards.length; i++){
-            this.cards[i].initialReservedQuantity = this.cards[i].reservedQuantity;
+          if(Array.isArray(this.cards)){
+            for (let i = 0; i < this.cards.length; i++){
+                this.cards[i].initialReservedQuantity = this.cards[i].reservedQuantity;
+            }
           }
       })
       
@@ -141,8 +145,8 @@ export default {
 }
 
 h5 {
-    margin-left:24px;
-    margin-top: 12px;
+    margin-left: 24px;
+    margin-top: 13px;
 }
 
 button.primary {

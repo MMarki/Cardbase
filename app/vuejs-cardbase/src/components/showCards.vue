@@ -134,7 +134,7 @@ export default {
 }
 
 .chip-container {
-    display: inline-block;
+    display: block;
 }
 
 .chip-active{

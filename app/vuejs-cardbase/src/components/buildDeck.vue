@@ -9,7 +9,7 @@
     </nav>
     <h1 class="score-text">{{"Deck Score: +" + deckScore}}</h1>
     <h5 class= "score-text">{{ "Deck Size: " + deckSize + "/30" }}</h5>
-    <button v-on:click="saveDeck()" class='primary'>SAVE DECK</button>
+    <button v-on:click="saveDeck()" :class="isChanged ? 'primary' : 'inactive'">{{isChanged ? "SAVE DECK" : "SAVED" }}</button>
     <div v-if="Array.isArray(cards)" class="full-width">
       <div class="six columns first-column">
         <h3>Library</h3>
@@ -41,7 +41,8 @@ export default {
     return {
         cards: [],
         id: this.$route.params.id,
-        deckSize: 0
+        deckSize: 0,
+        isChanged: 0
     }
   },
   methods: {
@@ -56,11 +57,13 @@ export default {
       addToDeck: function(in_card){
           if (in_card.reservedQuantity < in_card.quantity){
               in_card.reservedQuantity += 1;
+              this.isChanged = 1;
           } 
       },
       subtractFromDeck: function(in_card){
           if (in_card.reservedQuantity > 0){
               in_card.reservedQuantity -= 1;
+              this.isChanged = 1;
           } 
       },
       saveDeck: function(){
@@ -76,6 +79,7 @@ export default {
             }
         }
         this.$http.post('http://104.162.128.255:5000/saveDeck', passedParams).then(function(data){});
+        this.isChanged = 0;
       }
   },
   computed: {
@@ -161,6 +165,15 @@ button.primary {
     max-width: 160px;
     float:right;
     border-color:white;
+    height:60px;
+}
+
+button.inactive {
+    background-color: #fff;
+    color: #222;
+    max-width: 160px;
+    float:right;
+    border-color: #bbb;
     height:60px;
 }
 

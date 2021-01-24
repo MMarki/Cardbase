@@ -105,7 +105,7 @@ app.get('/packs', function(request, response){
     let rareCards = [];
 
     connection.query(
-        'SELECT id, name, rarity, imagePath FROM cardDescriptions ', function(error, results, fields) {
+        'SELECT id, name, rarity, imagePath FROM cardDescriptions WHERE enabled = true;', function(error, results, fields) {
             if (results.length > 0) {
                 rarities = JSON.parse(JSON.stringify(results));
 

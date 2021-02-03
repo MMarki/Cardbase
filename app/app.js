@@ -1,12 +1,11 @@
 const mysql = require('mysql');
 const express = require('express');
-//const history = require('connect-history-api-fallback');
 const cors = require('cors');
 
 let connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    password: 'BigChungus420',
+    password: 'TestPW',
     database: 'cardbase'
 });
 
@@ -23,7 +22,6 @@ app.listen(port, function(req, res){
 })
 
 app.use(cors());
-//app.use(history());
 
 //built-in middleware
 app.use(express.urlencoded());
@@ -33,7 +31,6 @@ app.use(express.json());
 app.use('/public', express.static('public'));
 app.use('/src', express.static('src'));
 app.use('/dist', express.static('dist'));
-
 
 //Routing
 app.get('/', function(request, response){
@@ -109,6 +106,7 @@ app.get('/packs', function(request, response){
             if (results.length > 0) {
                 rarities = JSON.parse(JSON.stringify(results));
 
+                //4 commons per pack, 1 uncommon or rare, uncommons are twice as common as rares
                 for (let i = 0; i < rarities.length; i++){
                     let card = rarities[i]
                     if (card.rarity === 'COMMON'){
@@ -194,7 +192,7 @@ app.post('/login', function(request, response){
     }
 })
 
-//Authorization
+//Saving Changes to the Deck
 app.post('/saveDeck', function(request, response){
     let id = request.body.params.id;
     let cardsToUpdate = request.body.params.cards;
@@ -230,10 +228,12 @@ app.use(function (request, response){
     response.status(404).sendFile('./404.html', {root: __dirname});
 });
 
+// Choose a random element of an array
 function chooseRandom(in_array){
     return in_array[Math.floor(Math.random() * in_array.length)];
 }
 
+//collate entries with the same id into single entries
 function collateArray(in_array){
     let out_array = [];
     for (let i = 0; i < in_array.length; i++){

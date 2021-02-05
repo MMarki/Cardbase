@@ -11,7 +11,7 @@
     <h5 class= "score-text">{{ "Deck Size: " + deckSize + "/30" }}</h5>
     <button v-on:click="saveDeck()" :class="isChanged ? 'primary' : 'inactive'">{{isChanged ? "SAVE DECK" : "SAVED" }}</button>
     <div v-if="Array.isArray(cards)" class="full-width">
-      <div class="six columns first-column">
+      <div class="nine columns first-column">
         <h3>Library</h3>
         <div v-for="card in cards" class="single-card" v-bind:key="card.name">
           <img :src="getImagePath(  card.imagePath )">
@@ -22,11 +22,13 @@
           </div>
         </div>
       </div>
-      <div class="six columns second-column">
+      <div class="three columns second-column">
         <h3>Deck</h3>
-        <div v-for="card in reservedCards" class="single-card" v-bind:key="card.name">
-          <img v-if="card.reservedQuantity > 0" :src="getImagePath(  card.imagePath )">
+        <div v-for="card in reservedCards" class="single-chip" v-bind:key="card.name">
           <p v-if="card.reservedQuantity > 0">{{ card.reservedQuantity }}</p>
+          <p v-if="card.reservedQuantity > 0">{{ card.name + " " }}</p>
+          <img v-if="card.reservedQuantity > 0" :src="getRealRarity(card.rarity)">
+          <p v-if="card.reservedQuantity > 0">{{card.cost }}</p>
         </div>
       </div>
     <div>
@@ -80,6 +82,19 @@ export default {
         }
         this.$http.post('http://104.162.128.255:5000/saveDeck', passedParams).then(function(data){});
         this.isChanged = 0;
+      },
+      getRealRarity(in_string){
+        let imagePath = '../public/' + 'assets/common.png';
+        if (in_string === 'COMMON'){
+            imagePath ='../public/' + 'assets/common.png';
+        } else if (in_string === 'UNCOMN'){
+            imagePath ='../public/' + 'assets/uncommon.png';
+        } else if (in_string === 'RARE'){
+            imagePath ='../public/' + 'assets/rare.png';
+        } else {
+            return 'ERROR';
+        }
+        return imagePath;
       }
   },
   computed: {
@@ -152,6 +167,25 @@ export default {
 
 .score-text{
     float:left;
+}
+
+.single-chip p{
+    display: inline;
+}
+
+.single-chip img{
+    width: 24px;
+    vertical-align: middle;
+}
+
+.single-chip{
+    margin: 4px;
+    padding-left: 8px;
+    padding-right: 8px;
+    border-radius: 20px;
+    background-color: #fff;
+    border: 1px solid #BBB;
+    height: 30px;
 }
 
 h5 {

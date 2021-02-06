@@ -24,11 +24,11 @@
       </div>
       <div class="three columns second-column">
         <h3>Deck</h3>
-        <div v-for="card in reservedCards" class="single-chip" v-bind:key="card.name">
-          <p v-if="card.reservedQuantity > 0">{{ card.reservedQuantity }}</p>
+        <div v-for="card in reservedCards" class="single-chip" :class="getColorClass(card.color)" v-bind:key="card.name">
+          <p v-if="card.reservedQuantity > 0">{{ card.reservedQuantity + "x "}}</p>
           <p v-if="card.reservedQuantity > 0">{{ card.name + " " }}</p>
+          <img v-if="card.reservedQuantity > 0" class="cost-icons" :src="getCostImage(card.cost)">
           <img v-if="card.reservedQuantity > 0" :src="getRealRarity(card.rarity)">
-          <p v-if="card.reservedQuantity > 0">{{card.cost }}</p>
         </div>
       </div>
     <div>
@@ -95,6 +95,24 @@ export default {
             return 'ERROR';
         }
         return imagePath;
+      },
+      getCostImage(in_string){
+        let imagePath = '../public/' + 'assets/energy.png';
+        if (in_string === 'ON' ||in_string === 'TW' ||in_string === 'TH'){
+            imagePath ='../public/' + 'assets/energy.png';
+        } else if (in_string === 'NO'){
+            imagePath ='../public/' + 'assets/energy-no.png';
+        } else if (in_string === 'SO' || in_string === 'ST' ||in_string === 'SH'){
+            imagePath ='../public/' + 'assets/sacrifice.png';
+        } else {
+            return 'ERROR';
+        }
+        return imagePath;
+      },
+      getColorClass(in_string){
+        let className = 'chip-';
+        className += in_string;
+        return className;
       }
   },
   computed: {
@@ -171,10 +189,29 @@ export default {
 
 .single-chip p{
     display: inline;
+    line-height:30px
 }
 
 .single-chip img{
     width: 24px;
+    vertical-align: middle;
+}
+
+@media (min-width: 550px){
+    .column, .columns {
+        margin-left: 2%;
+    }
+}
+
+@media (min-width: 550px){
+    .three.columns {
+        width: 22%;
+    }
+}
+
+.single-chip .cost-icons{
+    width: auto;
+    height:22px;
     vertical-align: middle;
 }
 
@@ -185,7 +222,28 @@ export default {
     border-radius: 20px;
     background-color: #fff;
     border: 1px solid #BBB;
-    height: 30px;
+    display: inline-block;
+    width: 85%;
+}
+
+.chip-green{
+    background-color: #F7FAF7;
+    border: 1px solid #41A542;
+}
+
+.chip-red{
+    background-color: #FFF1F1;
+    border: 1px solid #B9322C;
+}
+
+.chip-blue{
+    background-color: #F1FAFF;
+    border: 1px solid #4B7FB6;
+}
+
+.chip-yellow{
+    background-color: #FFFFF1;
+    border: 1px solid #CFCFAF;
 }
 
 h5 {

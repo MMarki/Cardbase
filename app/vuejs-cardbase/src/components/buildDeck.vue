@@ -18,7 +18,7 @@
           <p>{{ card.reservedQuantity + "/" + card.quantity }}</p>
           <div class="button-container">
             <button class="subtract" v-on:click="subtractFromDeck(card)" v-if="card.reservedQuantity > 0">Subtract</button>
-            <button class="add" v-on:click="addToDeck(card)" v-if="card.reservedQuantity < card.quantity && deckSize < 30">Add</button>
+            <button class="add" v-on:click="addToDeck(card)" :class="card.reservedQuantity < card.quantity && deckSize < 30 ? 'add' : 'add-inactive'">Add</button>
           </div>
         </div>
       </div>
@@ -57,10 +57,12 @@ export default {
           return imagePath;
       },
       addToDeck: function(in_card){
-          if (in_card.reservedQuantity < in_card.quantity){
-              in_card.reservedQuantity += 1;
-              this.isChanged = 1;
-          } 
+          if (in_card.reservedQuantity < in_card.quantity && this.deckSize < 30){
+              if (in_card.reservedQuantity < in_card.quantity){
+                in_card.reservedQuantity += 1;
+                this.isChanged = 1;
+            } 
+          }
       },
       subtractFromDeck: function(in_card){
           if (in_card.reservedQuantity > 0){
@@ -279,6 +281,12 @@ button.inactive {
     background-color: #48C774;
     color: #fff;
     border-color:white;
+}
+
+.add-inactive {
+    background-color: #fff;
+    color: #222;
+    border-color: #bbb;
 }
 
 .single-card img{

@@ -13,12 +13,8 @@
 export default {
   data: function () {
     return {
-        id: this.$route.params.id
+        id: (document.cookie).split('; ').find(row => row.startsWith('user=')).split('=')[1],
     }
-  },
-  created(){
-      this.id = this.$route.params.id;
-      console.log(this.id);
   }
 }
 </script>

@@ -1,12 +1,5 @@
 <template>
   <div id="blogo">
-    <nav>
-      <ul>
-          <li><router-link v-bind:to="'/library/'" exact>Library</router-link></li>
-          <li><router-link v-bind:to="'/deck/'" exact>Deck</router-link></li>
-          <li><router-link v-bind:to="'/packs/'" exact>Packs</router-link></li>
-      </ul>
-    </nav>
     <h1>Open Your Card Packs:</h1>
     <div v-if="submitted" >
       <button class="primary" v-on:click="showPack">Next Pack</button>

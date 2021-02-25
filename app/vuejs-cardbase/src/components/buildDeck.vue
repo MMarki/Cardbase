@@ -1,12 +1,5 @@
 <template>
   <div>
-    <nav>
-      <ul>
-        <li><router-link v-bind:to="'/library/'" exact>Library</router-link></li>
-        <li><router-link v-bind:to="'/deck/'" exact>Deck</router-link></li>
-        <li><router-link v-bind:to="'/packs/'" exact>Packs</router-link></li>
-      </ul>
-    </nav>
     <h1 class="score-text">{{"Deck Score: +" + deckScore}}</h1>
     <h5 class= "score-text">{{ "Deck Size: " + deckSize + "/30" }}</h5>
     <button v-on:click="saveDeck()" :class="isChanged ? 'primary' : 'inactive'">{{isChanged ? "SAVE DECK" : "SAVED" }}</button>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    
+    <app-header v-if="['library', 'deck', 'packs'].includes($route.name)"></app-header>
     <router-view @updateStatus="updateNav"></router-view>
   </div>
 </template>
@@ -9,7 +9,7 @@
 import addCards from './components/addCards.vue'
 import showCards from './components/showCards.vue'
 import buildDeck from './components/buildDeck.vue'
-//import header from './components/header.vue'
+import header from './components/header.vue'
 import login from './components/login.vue'
 
 export default {
@@ -17,13 +17,8 @@ export default {
     'add-cards': addCards,
     'show-cards': showCards,
     'build-deck': buildDeck,
-    //'app-header': header,
+    'app-header': header,
     'login': login
-  },
-  methods: {
-    updateNav: function (){
-      console.log('UPDATING NAV');
-    }
   },
   data: function () {
     return {

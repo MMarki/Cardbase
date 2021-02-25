@@ -1,12 +1,5 @@
 <template>
   <div>
-      <nav>
-        <ul>
-          <li><router-link v-bind:to="'/library/'" exact>Library</router-link></li>
-          <li><router-link v-bind:to="'/deck/'" exact>Deck</router-link></li>
-          <li><router-link v-bind:to="'/packs/'" exact>Packs</router-link></li>
-        </ul>
-      </nav>
       <h1>Your Card Library:</h1>
       <div class="chip-container">
             <button :class="filterConditions.common ? 'chip-active-common' : 'chip-inactive'" v-on:click="updateFilter('common')" v-if="Array.isArray(cards)">COMMON</button>

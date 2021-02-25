@@ -7,5 +7,5 @@ export default [
     {path: '/', name: 'login', component: login},
     {path: '/library/', name: 'library', component: showCards},
     {path: '/packs/', name: 'packs', component: addCards},
-    {path: '/deck/', name: 'desk', component: buildDeck}
+    {path: '/deck/', name: 'deck', component: buildDeck}
 ]

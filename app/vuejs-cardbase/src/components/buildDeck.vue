@@ -2,9 +2,9 @@
   <div>
     <nav>
       <ul>
-        <li><router-link v-bind:to="'/library/' + id" exact>Library</router-link></li>
-        <li><router-link v-bind:to="'/deck/' + id" exact>Deck</router-link></li>
-        <li><router-link v-bind:to="'/packs/' + id" exact>Packs</router-link></li>
+        <li><router-link v-bind:to="'/library/'" exact>Library</router-link></li>
+        <li><router-link v-bind:to="'/deck/'" exact>Deck</router-link></li>
+        <li><router-link v-bind:to="'/packs/'" exact>Packs</router-link></li>
       </ul>
     </nav>
     <h1 class="score-text">{{"Deck Score: +" + deckScore}}</h1>
@@ -42,7 +42,7 @@ export default {
   data: function () {
     return {
         cards: [],
-        id: this.$route.params.id,
+        id: (document.cookie).split('; ').find(row => row.startsWith('user=')).split('=')[1],
         deckSize: 0,
         isChanged: 0
     }
@@ -82,7 +82,7 @@ export default {
                 passedParams.params.cards.push({name: card.name, reserved: card.reservedQuantity});
             }
         }
-        this.$http.post('http://104.162.128.255:5000/saveDeck', passedParams).then(function(data){});
+        this.$http.post('http://104.162.128.255:5000/api/saveDeck', passedParams).then(function(data){});
         this.isChanged = 0;
       },
       getRealRarity(in_string){
@@ -144,7 +144,7 @@ export default {
       }
   },
   created(){
-      this.$http.get('http://104.162.128.255:5000/deck', {params: {id: this.id}}).then(function(data){
+      this.$http.get('http://104.162.128.255:5000/api/deck', {params: {id: this.id}}).then(function(data){
           this.cards = data.body;
           //keep track of initial reserved quantity
           if(Array.isArray(this.cards)){

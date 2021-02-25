@@ -2,9 +2,9 @@
   <div>
       <nav>
         <ul>
-          <li><router-link v-bind:to="'/library/' + id" exact>Library</router-link></li>
-          <li><router-link v-bind:to="'/deck/' + id" exact>Deck</router-link></li>
-          <li><router-link v-bind:to="'/packs/' + id" exact>Packs</router-link></li>
+          <li><router-link v-bind:to="'/library/'" exact>Library</router-link></li>
+          <li><router-link v-bind:to="'/deck/'" exact>Deck</router-link></li>
+          <li><router-link v-bind:to="'/packs/'" exact>Packs</router-link></li>
         </ul>
       </nav>
       <h1>Your Card Library:</h1>
@@ -33,7 +33,7 @@ export default {
   data: function () {
     return {
         cards: [],
-        id: this.$route.params.id,
+        id: (document.cookie).split('; ').find(row => row.startsWith('user=')).split('=')[1],
         filterConditions: {
             common: false,
             uncommon: false,
@@ -48,7 +48,7 @@ export default {
   },
   methods: {
       getImagePath: function(in_imgPathFromDB){
-          console.log(in_imgPathFromDB)
+          //console.log(in_imgPathFromDB)
           let imagePath = '../public/' + 'assets/cards/twitcher.png';
           if (in_imgPathFromDB != undefined){
               imagePath = '../public/' + in_imgPathFromDB;
@@ -64,7 +64,7 @@ export default {
       }
   },
   created(){
-      this.$http.get('http://104.162.128.255:5000/library', {params: {id: this.id}}).then(function(data){
+      this.$http.get('http://104.162.128.255:5000/api/library', {params: {id: this.id}}).then(function(data){
           this.cards = data.body
       })
   },

@@ -24,12 +24,12 @@ export default {
   methods: {
     auth: function (){
       console.log('posting!');
-      this.$http.post('http://104.162.128.255:5000/login', { username: this.username }).then(function(data){
+      this.$http.post('http://104.162.128.255:5000/api/login', { username: this.username }).then(function(data){
           console.log(data.body);
           if (data.body.id !== undefined){
             this.error = 0;
-            console.log('rerouting');
-            this.$router.push({ name: 'library', params: { id: data.body.id } });
+            this.$router.push({ name: 'library' });
+            document.cookie = "user=" + data.body.id + "; path=/;"
           } else {
             this.error = 1
           }

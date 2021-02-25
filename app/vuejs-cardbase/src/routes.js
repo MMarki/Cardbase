@@ -5,7 +5,7 @@ import buildDeck from './components/buildDeck.vue';
 
 export default [
     {path: '/', name: 'login', component: login},
-    {path: '/library/:id', name: 'library', component: showCards},
-    {path: '/packs/:id', name: 'packs', component: addCards},
-    {path: '/deck/:id', name: 'desk', component: buildDeck}
+    {path: '/library/', name: 'library', component: showCards},
+    {path: '/packs/', name: 'packs', component: addCards},
+    {path: '/deck/', name: 'desk', component: buildDeck}
 ]

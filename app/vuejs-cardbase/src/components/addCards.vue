@@ -2,9 +2,9 @@
   <div id="blogo">
     <nav>
       <ul>
-          <li><router-link v-bind:to="'/library/' + id" exact>Library</router-link></li>
-          <li><router-link v-bind:to="'/deck/' + id" exact>Deck</router-link></li>
-          <li><router-link v-bind:to="'/packs/' + id" exact>Packs</router-link></li>
+          <li><router-link v-bind:to="'/library/'" exact>Library</router-link></li>
+          <li><router-link v-bind:to="'/deck/'" exact>Deck</router-link></li>
+          <li><router-link v-bind:to="'/packs/'" exact>Packs</router-link></li>
       </ul>
     </nav>
     <h1>Open Your Card Packs:</h1>
@@ -30,12 +30,12 @@ export default {
       ],
       submitted: false,
       packCount: 0,
-      id: this.$route.params.id
+      id: (document.cookie).split('; ').find(row => row.startsWith('user=')).split('=')[1],
     }
   },
   methods: {
     addCards: function (){
-      this.$http.get('http://104.162.128.255:5000/packs', 
+      this.$http.get('http://104.162.128.255:5000/api/packs', 
         {params: {id: this.id}}).then(function(data){
           this.cards = data.body
           console.log(data);
@@ -48,7 +48,7 @@ export default {
       this.submitted = false;
     },
     getPackCount: function (){
-      this.$http.get('http://104.162.128.255:5000/packCount', 
+      this.$http.get('http://104.162.128.255:5000/api/packCount', 
         {params: {id: this.id}}).then(function(data){
           this.packCount = data.body[0].packCount;
       })

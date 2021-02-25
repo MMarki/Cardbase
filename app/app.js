@@ -37,7 +37,7 @@ app.get('/', function(request, response){
     response.sendFile('./index.html', {root: __dirname});
 });
 
-app.get('/library', function(request, response){
+app.get('/api/library', function(request, response){
     let id = request.query.id;
     console.log("id: "+ id);
     let sql = 'SELECT cardDescriptions.name, cards.quantity, cardDescriptions.imagePath, cardDescriptions.rarity, cardDescriptions.cost FROM cards ' +
@@ -57,7 +57,7 @@ app.get('/library', function(request, response){
     });
 });
 
-app.get('/packCount', function(request, response){
+app.get('/api/packCount', function(request, response){
     let id = request.query.id;
     console.log("id: "+ id);
     let sql = 'SELECT accounts.packCount ' +
@@ -73,7 +73,7 @@ app.get('/packCount', function(request, response){
     });
 });
 
-app.get('/deck', function(request, response){
+app.get('/api/deck', function(request, response){
     let id = request.query.id;
     console.log("id: "+ id);
     let sql = 'SELECT cardDescriptions.name, cards.quantity, cards.reservedQuantity, cardDescriptions.imagePath, cardDescriptions.rarity, cardDescriptions.cost, cardDescriptions.color FROM cards ' +
@@ -93,7 +93,7 @@ app.get('/deck', function(request, response){
     });
 });
 
-app.get('/packs', function(request, response){
+app.get('/api/packs', function(request, response){
     let id = request.query.id;
     console.log("id: "+ id);
 
@@ -176,7 +176,7 @@ app.get('/packs', function(request, response){
 });
 
 //Authorization
-app.post('/login', function(request, response){
+app.post('/api/login', function(request, response){
     let username = request.body.username;
     if (username) {
         connection.query('SELECT id FROM accounts WHERE username = ?', [username], function(error, results, fields) {
@@ -193,7 +193,7 @@ app.post('/login', function(request, response){
 })
 
 //Saving Changes to the Deck
-app.post('/saveDeck', function(request, response){
+app.post('/api/saveDeck', function(request, response){
     let id = request.body.params.id;
     let cardsToUpdate = request.body.params.cards;
     
@@ -221,7 +221,11 @@ app.post('/saveDeck', function(request, response){
 app.get('/home/:id', function(req, res){
     const id = req.params.id;
     res.send('Hello User Number: ' + id);
-})
+});
+
+app.get('*', function(request, response){
+    response.sendFile('./index.html', {root: __dirname});
+});
 
 // 404 Page
 app.use(function (request, response){

@@ -1,7 +1,7 @@
 <template>
   <div>
     <app-header v-if="['library', 'deck', 'packs'].includes($route.name)"></app-header>
-    <router-view @updateStatus="updateNav"></router-view>
+    <router-view></router-view>
   </div>
 </template>
 

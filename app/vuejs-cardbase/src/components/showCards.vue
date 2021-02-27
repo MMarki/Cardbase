@@ -42,9 +42,9 @@ export default {
   methods: {
       getImagePath: function(in_imgPathFromDB){
           //console.log(in_imgPathFromDB)
-          let imagePath = '../public/' + 'assets/cards/twitcher.png';
+          let imagePath =  '/assets/cards/twitcher.png';
           if (in_imgPathFromDB != undefined){
-              imagePath = '../public/' + in_imgPathFromDB;
+              imagePath = '/' + in_imgPathFromDB;
           }
           return imagePath;
       },

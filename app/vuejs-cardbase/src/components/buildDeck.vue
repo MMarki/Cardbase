@@ -24,7 +24,7 @@
           <img v-if="card.reservedQuantity > 0" :src="getRealRarity(card.rarity)">
         </div>
       </div>
-    <div>
+    </div>
   </div>
 </template>
 
@@ -43,9 +43,9 @@ export default {
   methods: {
       getImagePath: function(in_imgPathFromDB){
           console.log(in_imgPathFromDB)
-          let imagePath = '../public/' + 'assets/cards/twitcher.png';
+          let imagePath =  '/assets/cards/twitcher.png';
           if (in_imgPathFromDB != undefined){
-              imagePath = '../public/' + in_imgPathFromDB;
+              imagePath = '/' + in_imgPathFromDB;
           }
           return imagePath;
       },
@@ -75,30 +75,30 @@ export default {
                 passedParams.params.cards.push({name: card.name, reserved: card.reservedQuantity});
             }
         }
-        this.$http.post('http://104.162.128.255:5000/api/saveDeck', passedParams).then(function(data){});
+        this.$http.post('http://104.162.128.255:5000/api/saveDeck', passedParams).then(function(){});
         this.isChanged = 0;
       },
       getRealRarity(in_string){
-        let imagePath = '../public/' + 'assets/common.png';
+        let imagePath =  '/assets/common.png';
         if (in_string === 'COMMON'){
-            imagePath ='../public/' + 'assets/common.png';
+            imagePath = '/assets/common.png';
         } else if (in_string === 'UNCOMN'){
-            imagePath ='../public/' + 'assets/uncommon.png';
+            imagePath = '/assets/uncommon.png';
         } else if (in_string === 'RARE'){
-            imagePath ='../public/' + 'assets/rare.png';
+            imagePath = '/assets/rare.png';
         } else {
             return 'ERROR';
         }
         return imagePath;
       },
       getCostImage(in_string){
-        let imagePath = '../public/' + 'assets/energy.png';
+        let imagePath =  '/assets/energy.png';
         if (in_string === 'ON' ||in_string === 'TW' ||in_string === 'TH'){
-            imagePath ='../public/' + 'assets/energy.png';
+            imagePath = '/assets/energy.png';
         } else if (in_string === 'NO'){
-            imagePath ='../public/' + 'assets/energy-no.png';
+            imagePath = '/assets/energy-no.png';
         } else if (in_string === 'SO' || in_string === 'ST' ||in_string === 'SH'){
-            imagePath ='../public/' + 'assets/sacrifice.png';
+            imagePath = '/assets/sacrifice.png';
         } else {
             return 'ERROR';
         }
@@ -194,13 +194,13 @@ export default {
 
 @media (min-width: 550px){
     .column, .columns {
-        margin-left: 2%;
+        margin-left: 0%;
     }
 }
 
 @media (min-width: 550px){
     .three.columns {
-        width: 22%;
+        width: 24%;
     }
 }
 
@@ -283,7 +283,7 @@ button.inactive {
 }
 
 .single-card img{
-    max-width: 280px;
+    max-width: 260px;
 }
 .single-card p{
     margin: -24px auto 0px auto;

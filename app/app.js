@@ -28,13 +28,13 @@ app.use(express.urlencoded());
 app.use(express.json());
 
 //static resource delivery
-app.use('/public', express.static('public'));
-app.use('/src', express.static('src'));
-app.use('/dist', express.static('dist'));
+//app.use('/public', express.static('public'));
+//app.use('/src', express.static('src'));
+app.use(express.static('dist'));
 
 //Routing
 app.get('/', function(request, response){
-    response.sendFile('./index.html', {root: __dirname});
+    response.sendFile('./dist/index.html', {root: __dirname});
 });
 
 app.get('/api/library', function(request, response){
@@ -224,7 +224,7 @@ app.get('/home/:id', function(req, res){
 });
 
 app.get('*', function(request, response){
-    response.sendFile('./index.html', {root: __dirname});
+    response.sendFile('./dist/index.html', {root: __dirname});
 });
 
 // 404 Page
